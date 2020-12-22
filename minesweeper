@@ -1,0 +1,385 @@
+#include<stdio.h>
+#include<stdint.h>
+#include<stdlib.h>
+#include<time.h>
+#include"minesweeper.h"
+#include"open.h"
+int main(){
+	srand(time(0));
+	int32_t width_input=0,height_input=0,mine_input=0,minenumber=1,count=0,y=0;
+	printf("Please enter the width (10-16):       ");
+	y=scanf("%d",&width_input);
+	if(width_input<10||width_input>16)
+	{
+		printf("error\n");
+		return 0;
+	}
+	if(y!=1)
+	{
+        printf("error\n");
+		return 0;           
+    }
+	setbuf(stdin,NULL);
+	printf("Please enter the height (10-16):      ");
+	y=scanf("%d",&height_input);
+	if(height_input<10||height_input>16)
+	{
+		printf("error\n");
+		return 0;
+	}
+	if(y!=1)
+	{
+        printf("error\n");
+		return 0;           
+    }
+	setbuf(stdin,NULL);
+	printf("Please enter the mine number (30-90): ");
+	y=scanf("%d",&mine_input);
+	if(mine_input<30||height_input>90)
+	{
+		printf("error\n");
+		return 0;
+	}
+	if(y!=1)
+	{
+        printf("error\n");
+		return 0;           
+    }
+	int32_t mine[16][16];
+	int32_t number[16][16];
+	for(int32_t i=0;i<width_input;i++)
+	{
+		for(int32_t j=0;j<height_input;j++)
+		{
+			mine[i][j]=0;
+			number[i][j]=0;
+		}
+	}
+	while(1)
+	{
+		mine[random()%(width_input)][random()%(height_input)]=-1;
+		count=0;
+		for(int32_t i=0;i<width_input;i++)
+		{
+			for(int32_t j=0;j<height_input;j++)
+			{	
+				if(mine[i][j]==-1){
+					count++;
+				}
+			}
+		}
+		if(count==mine_input)
+		{
+			break;
+		}
+	}
+	for(int32_t i=0;i<width_input;i++)
+	{
+			for(int32_t j=0;j<height_input;j++)
+			{	
+				if(mine[i][j]!=-1&&i>=1&&j>=1&&i<=width_input-2&&j<=height_input-2)//inner
+				{
+					if(mine[i+1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					} 
+					if(mine[i+1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+
+					}	
+					if(mine[i+1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					} 
+					if(mine[i-1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+
+					}	
+					if(mine[i-1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i==0&&j==0)//left up corner
+				{
+					if(mine[i+1][j]==-1)//down
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j+1]==-1)//right
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j+1]==-1)//right down
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i==width_input-1&&j==height_input-1)//right down corner
+				{
+					if(mine[i][j-1]==-1)//left
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j]==-1)//up
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j-1]==-1)//left up
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i==height_input-1&&j==0)//left down corner
+				{
+					if(mine[i-1][j]==-1)//up
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j+1]==-1)//right
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&j==width_input-1&&i==0)//right up corner
+				{
+					if(mine[i+1][j]==-1)//down
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j-1]==-1)//left
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i==0&&j!=0)//up
+				{
+					if(mine[i][j+1]==-1)//right
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j-1]==-1)//left
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j]==-1)//down
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i==height_input-1&&j!=0)//down
+				{
+					if(mine[i][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j]==-1)//up
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i!=0&&j==0)//left
+				{
+					if(mine[i+1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j+1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+				else if(mine[i][j]!=-1&&i!=0&&j==width_input-1)//right
+				{
+					if(mine[i+1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i+1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+					if(mine[i-1][j-1]==-1)
+					{
+						mine[i][j]=mine[i][j]+minenumber;
+					}
+				}
+			}
+	}
+	for(int32_t i=0;i<width_input;i++)
+	{
+		for(int32_t j=0;j<height_input;j++)
+		{
+			printf("%4d ",mine[i][j]);
+		}
+		printf("\n");
+	}
+	int32_t row=0,column=0,judge=0,conti=1,win1=0,win2=0,win3=0,right=0;
+	minesweeper(width_input,height_input,mine_input);
+	while(1){
+	printf("Your Option (1:Open, 2: Flag): ");
+	y=scanf("%d",&judge);
+	if(y!=1)
+	{
+        scanf("%*[^\n]");
+        scanf("%*c");     
+    }
+	printf("Position (row,column): ");
+	y=scanf("%d %d",&row,&column);
+	if(y!=1){
+		scanf("%*[^\n]");
+        scanf("%*c");
+	}
+	
+	//
+	switch(judge){
+		case 1:{
+			if (row>=0&&row<height_input&&column>=0&&column<width_input)
+            {
+				if(mine[row][column]==-1){
+					printf("you dead!\n");
+					conti=0;
+				}
+				else{
+					open(mine,number,row,column,width_input,height_input);
+					right=1;
+				}	
+				break;
+            }
+            else{
+                printf("error\n");
+                printf("please input again!\n");
+                break;
+            }
+		}
+		case 2:{
+				number[row][column]=-15;
+				right = 1;
+			break;
+		}
+		default:{
+			printf("error\n");
+            printf("please input again!\n");
+		}
+	}
+	if(conti==0){
+		break;
+	}
+
+	if(right==1){
+	printf("   ");
+	for(int32_t k=0;k<width_input;k++){
+		printf("0%d ",k);
+	}
+	printf("\n");
+	printf("--------------------------------------------\n");
+	for(int32_t i=0;i<height_input;i++)
+	{
+		printf("0%d ",i);
+		for(int32_t j=0;j<height_input;j++)
+		{
+			if(number[i][j]==0){
+				printf(" * ");
+			}
+			else if(number[i][j]==-15){
+				printf(" F ");
+			}
+			else if(mine[i][j]==0&&number[i][j]==1){
+				printf("   ");
+					
+			}
+			else{
+				printf(" %d ",mine[i][j]);
+			}
+		}
+		printf("\n");
+}
+	win1=0;
+	win2=0;
+	win3=0;
+	for(int32_t i=0;i<width_input;i++)
+	{
+		for(int32_t j=0;j<height_input;j++)
+		{
+			
+			if(number[i][j]!=0&&mine[i][j]!=-1){
+				win2++;
+			}
+			if(number[i][j]==-15&&mine[i][j]==-1){
+				win3++;
+			}
+			if(number[i][j]==0&&mine[i][j]==-1){
+				win1++;
+			}
+		}
+	}
+	if((win1+win2+win3)==width_input*height_input){
+		printf("you win!\n");
+		return 0;
+	}
+}
+}
+return 0;
+}
