@@ -3,7 +3,8 @@
 #include<stdlib.h>
 #include<time.h>
 #include"minesweeper.h"
-#include"open.h"
+#include"open.h"//oiufdsasdryuiop;
+
 int main(){
 	srand(time(0));
 	int32_t width_input=0,height_input=0,mine_input=0,minenumber=1,count=0,y=0;
