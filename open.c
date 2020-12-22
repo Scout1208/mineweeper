@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<stdint.h>
+#include"open.h"
+void open(int32_t (*mine)[16],int32_t (*number)[16],int32_t row,int32_t column,int width_input,int32_t height_input){
+	number[row][column]=1;
+	if(mine[row][column]==0){
+					if(row+1>=0&&row+1<=height_input&&column+1>=0&&column+1<=width_input&&mine[row+1][column+1]!=-1&&number[row+1][column+1]==0)
+					{
+						open(mine,number,row+1,column+1,width_input,height_input);
+					}
+
+					if(row+1>=0&&row+1<=height_input&&column>=0&&column<=width_input&&mine[row+1][column]!=-1&&number[row+1][column]==0)
+					{
+						open(mine,number,row+1,column,width_input,height_input);
+					}
+					if(row>=0&&row<=height_input&&column+1>=0&&column+1<=width_input&&mine[row][column+1]!=-1&&number[row][column+1]==0)
+					{
+						open(mine,number,row,column+1,width_input,height_input);
+					}	
+					if(row+1>=0&&row+1<=height_input&&column-1>=0&&column-1<=width_input&&mine[row+1][column-1]!=-1&&number[row+1][column-1]==0)
+					{
+						open(mine,number,row+1,column-1,width_input,height_input);
+					}
+					if(row-1>=0&&row-1<=height_input&&column-1>=0&&column-1<=width_input&&mine[row-1][column-1]!=-1&&number[row-1][column-1]==0)
+					{
+						open(mine,number,row-1,column-1,width_input,height_input);
+					} 
+					if(row+1>=0&&row+1<=height_input&&column>=0&&column<=width_input&&mine[row-1][column]!=-1&&number[row-1][column]==0)
+					{
+						open(mine,number,row-1,column,width_input,height_input);
+					}
+					if(row>=0&&row<=height_input&&column+1>=0&&column+1<=width_input&&mine[row][column-1]!=-1&&number[row][column-1]==0)
+					{
+						open(mine,number,row,column-1,width_input,height_input);
+					}	
+					if(row-1>=0&&row-1<=height_input&&column+1>=0&&column+1<=width_input&&mine[row-1][column+1]!=-1&&number[row-1][column+1]==0)
+					{
+						open(mine,number,row-1,column+1,width_input,height_input);
+					}
+	}
+}
